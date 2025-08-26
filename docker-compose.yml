@@ -1,0 +1,17 @@
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    command: ["--config.file=/etc/prometheus/prometheus.yaml", "--enable-feature=metadata-wal-records"]
+    volumes:
+      - "./prometheus.yaml:/etc/prometheus/prometheus.yaml"
+    ports:
+      - 9090:9090
+
+  collector:
+    container_name: collector
+    image: otel/opentelemetry-collector-contrib:0.133.0
+    command: ["--config=/etc/collector-config.yaml"]
+    volumes:
+      - ./collector-config.yaml:/etc/collector-config.yaml
+

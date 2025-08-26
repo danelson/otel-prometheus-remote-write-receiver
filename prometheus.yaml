@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 10s
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - prometheus:9090
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: go_gc_heap_allocs_bytes_total
+        action: keep
+remote_write:
+  - url: http://collector:55656/api/v1/write
+    protobuf_message: io.prometheus.write.v2.Request

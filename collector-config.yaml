@@ -1,0 +1,21 @@
+receivers:
+  prometheusremotewrite:
+    endpoint: 0.0.0.0:55656
+
+exporters:
+  debug:
+    verbosity: detailed
+
+processors:
+  batch:
+
+service:
+  telemetry:
+    logs:
+      level: debug
+  pipelines:
+    metrics:
+      receivers:
+        - prometheusremotewrite
+      exporters:
+        - debug
